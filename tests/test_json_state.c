@@ -14,12 +14,13 @@ int main(void)
     kitchen_t *k = kitchen_create();
     assert(json_load_config("kitchen.json", k) == SUCCESS);
 
-    /* Simulate some state changes */
+    /* Simulate state changes */
     k->simulated_time = 3600;
-    k->ingredients[0].quantity = 600.0f; /* flour used */
-    k->appliances[0].busy = 1;
-    k->appliances[0].time_left = 900;
-    strncpy(k->appliances[0].current_recipe, "cake", 63);
+    ingredient_find(k, "flour")->quantity = 600.0f;
+    appliance_t *oven = appliance_find(k, "oven");
+    oven->busy = 1;
+    oven->time_left = 900;
+    strncpy(oven->current_recipe, "cake", 63);
 
     /* Save state */
     assert(json_save_state("kitchen_save_test.json", k) == SUCCESS);
@@ -30,13 +31,19 @@ int main(void)
     assert(json_load_state("kitchen_save_test.json", k2) == SUCCESS);
 
     assert(k2->simulated_time == 3600);
-    assert(k2->ingredients[0].quantity == 600.0f);
-    assert(k2->appliances[0].busy == 1);
-    assert(k2->appliances[0].time_left == 900);
-    assert(strcmp(k2->appliances[0].current_recipe, "cake") == 0);
+    assert(ingredient_find(k2, "flour")->quantity == 600.0f);
+    appliance_t *oven2 = appliance_find(k2, "oven");
+    assert(oven2 != NULL);
+    assert(oven2->busy == 1);
+    assert(oven2->time_left == 900);
+    assert(strcmp(oven2->current_recipe, "cake") == 0);
 
-    kitchen_free(k);
-    kitchen_free(k2);
+    /* Recipes should be preserved after save/load */
+    assert(recipe_find(k2, "dough") != NULL);
+    assert(recipe_find(k2, "cake") != NULL);
+
+    kitchen_free_all(k);
+    kitchen_free_all(k2);
     remove("kitchen_save_test.json");
     printf("test_json_state: OK\n");
     return 0;

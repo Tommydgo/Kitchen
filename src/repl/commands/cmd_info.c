@@ -19,16 +19,11 @@ int cmd_info(repl_ctx_t *ctx, char **args, int argc)
     }
     printf("Recipe: %s\n", r->name);
     printf("Ingredients:\n");
-    for (int i = 0; i < r->nb_ingredients; i++)
-        printf("  - %.1f %s %s\n",
-            r->ingredients[i].quantity,
-            r->ingredients[i].unit,
-            r->ingredients[i].ingredient);
+    for (recipe_ingredient_t *ri = r->ingredients; ri; ri = ri->next)
+        printf("  - %.1f %s %s\n", ri->quantity, ri->unit, ri->ingredient);
     printf("Appliances:\n");
-    for (int i = 0; i < r->nb_appliances; i++)
-        printf("  - %s (%ds)\n",
-            r->appliances[i].appliance,
-            r->appliances[i].duration);
+    for (recipe_appliance_t *ra = r->appliances; ra; ra = ra->next)
+        printf("  - %s (%ds)\n", ra->appliance, ra->duration);
     if (r->nb_sub_recipes > 0) {
         printf("Sub-recipes:\n");
         for (int i = 0; i < r->nb_sub_recipes; i++)

@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2026
 ** Kitchen
 ** File description:
-** Unit tests for ingredient find, consume, restock and add
+** Unit tests for ingredient find, consume, restock, add and remove
 */
 #include <assert.h>
 #include "global_includes.h"
@@ -36,13 +36,18 @@ int main(void)
     assert(ingredient_add(k, "sugar", 100.0f, "g") == SUCCESS);
     assert(ingredient_find(k, "sugar")->quantity == 400.0f);
 
+    /* ingredient_remove */
+    assert(ingredient_remove(k, "sugar") == SUCCESS);
+    assert(ingredient_find(k, "sugar") == NULL);
+    assert(ingredient_remove(k, "nonexistent") == EXIT_FAIL);
+
     /* unlimited mode */
     k->stock_mode = 0;
     ingredient_t *eggs = ingredient_find(k, "eggs");
     eggs->unlimited = 1;
-    assert(ingredient_consume(k, "eggs", 99999.0f) == SUCCESS); /* never fails when unlimited */
+    assert(ingredient_consume(k, "eggs", 99999.0f) == SUCCESS);
 
-    kitchen_free(k);
+    kitchen_free_all(k);
     printf("test_ingredient: OK\n");
     return 0;
 }

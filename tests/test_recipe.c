@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2026
 ** Kitchen
 ** File description:
-** Unit tests for recipe cooking, sub-recipes and cycle detection
+** Unit tests for recipe cooking, sub-recipes, cycle detection and remove
 */
 #include <assert.h>
 #include <string.h>
@@ -22,15 +22,12 @@ int main(void)
 
     /* cook dough: needs flour(200g) + butter(100g), uses microwave(120s) */
     assert(recipe_cook(k, "dough", visited, &nb) == SUCCESS);
+
     /* microwave should be busy */
-    appliance_t *busy_mw = NULL;
-    for (int i = 0; i < k->nb_appliances; i++) {
-        if (strcmp(k->appliances[i].name, "microwave") == 0
-            && k->appliances[i].busy)
-            busy_mw = &k->appliances[i];
-    }
-    assert(busy_mw != NULL);
+    appliance_t *busy_mw = appliance_find(k, "microwave");
+    assert(busy_mw != NULL && busy_mw->busy == 1);
     assert(busy_mw->time_left == 120);
+
     /* flour consumed */
     assert(ingredient_find(k, "flour")->quantity == 800.0f);
 
@@ -46,14 +43,18 @@ int main(void)
 
     /* advance time to finish cake */
     kitchen_advance_time(k, 1800);
-    /* eggs: 12 - 3 = 9 remaining */
     assert(ingredient_find(k, "eggs")->quantity == 9.0f);
 
     /* unknown recipe should fail */
     nb = 0;
     assert(recipe_cook(k, "unknown_recipe", visited, &nb) == EXIT_FAIL);
 
-    kitchen_free(k);
+    /* recipe_remove */
+    assert(recipe_remove(k, "cake") == SUCCESS);
+    assert(recipe_find(k, "cake") == NULL);
+    assert(recipe_remove(k, "nonexistent") == EXIT_FAIL);
+
+    kitchen_free_all(k);
     printf("test_recipe: OK\n");
     return 0;
 }

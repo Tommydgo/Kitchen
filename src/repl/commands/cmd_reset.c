@@ -9,8 +9,7 @@
 int cmd_reset(repl_ctx_t *ctx, char **args, int argc)
 {
     (void)args; (void)argc;
-    memset(ctx->k, 0, sizeof(kitchen_t));
-    ctx->k->stock_mode = 1;
+    kitchen_clear(ctx->k);
     if (ctx->ds->load_config(ctx->config_path, ctx->k) != SUCCESS) {
         printf("Error: failed to reload '%s'\n", ctx->config_path);
         return EXIT_FAIL;

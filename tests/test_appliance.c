@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2026
 ** Kitchen
 ** File description:
-** Unit tests for appliance find, tick and busy logic
+** Unit tests for appliance find, tick, busy logic and remove
 */
 #include <assert.h>
 #include <string.h>
@@ -49,7 +49,16 @@ int main(void)
     m2->busy = 1;
     assert(appliance_find_free(k, "microwave") == NULL);
 
-    kitchen_free(k);
+    /* appliance_remove: free appliance */
+    m1->busy = 0;
+    m2->busy = 0;
+    assert(appliance_remove(k, "microwave") == SUCCESS);
+    assert(appliance_find(k, "microwave") != NULL);
+    assert(appliance_remove(k, "microwave") == SUCCESS);
+    assert(appliance_find(k, "microwave") == NULL);
+    assert(appliance_remove(k, "nonexistent") == EXIT_FAIL);
+
+    kitchen_free_all(k);
     printf("test_appliance: OK\n");
     return 0;
 }

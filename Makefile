@@ -20,6 +20,8 @@ SRC =   src/main.c                              \
         src/repl/commands/cmd_reset.c           \
         src/repl/commands/cmd_help.c            \
         src/repl/commands/cmd_exit.c            \
+        src/repl/commands/cmd_add.c             \
+        src/repl/commands/cmd_remove.c          \
         src/datasource/datasource.c             \
         src/datasource/json_config.c            \
         src/datasource/json_state.c             \

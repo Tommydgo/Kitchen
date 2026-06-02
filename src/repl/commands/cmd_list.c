@@ -14,19 +14,18 @@ int cmd_list(repl_ctx_t *ctx, char **args, int argc)
     }
     kitchen_t *k = ctx->k;
     if (strcmp(args[1], "recipes") == 0) {
-        for (int i = 0; i < k->nb_recipes; i++)
-            printf("  - %s\n", k->recipes[i].name);
+        for (recipe_t *r = k->recipes; r; r = r->next)
+            printf("  - %s\n", r->name);
     } else if (strcmp(args[1], "ingredients") == 0) {
-        for (int i = 0; i < k->nb_ingredients; i++) {
-            if (k->ingredients[i].unlimited)
-                printf("  - %s: unlimited\n", k->ingredients[i].name);
+        for (ingredient_t *ing = k->ingredients; ing; ing = ing->next) {
+            if (ing->unlimited)
+                printf("  - %s: unlimited\n", ing->name);
             else
-                printf("  - %s: %.1f %s\n", k->ingredients[i].name,
-                    k->ingredients[i].quantity, k->ingredients[i].unit);
+                printf("  - %s: %.1f %s\n",
+                    ing->name, ing->quantity, ing->unit);
         }
     } else if (strcmp(args[1], "appliances") == 0) {
-        for (int i = 0; i < k->nb_appliances; i++) {
-            appliance_t *a = &k->appliances[i];
+        for (appliance_t *a = k->appliances; a; a = a->next) {
             if (a->busy)
                 printf("  - %s: busy (%s, %ds left)\n",
                     a->name, a->current_recipe, a->time_left);

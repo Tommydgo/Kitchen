@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 
     if (ds->load_config(config_path, k) != SUCCESS) {
         fprintf(stderr, "Error: failed to load config '%s'\n", config_path);
-        kitchen_free(k);
+        kitchen_free_all(k);
         datasource_free(ds);
         return EXIT_FAIL;
     }
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 
     repl_run(&ctx);
 
-    kitchen_free(k);
+    kitchen_free_all(k);
     datasource_free(ds);
     return SUCCESS;
 }

@@ -42,7 +42,7 @@ int main(void)
     assert(repl_dispatch(&ctx, bad, 1) == SUCCESS);
     assert(dummy_called == 0);
 
-    kitchen_free(k);
+    kitchen_free_all(k);
     datasource_free(ds);
     printf("test_repl_dispatch: OK\n");
     return 0;

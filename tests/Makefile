@@ -14,7 +14,8 @@ REPL_OBJS = src/repl/repl.o src/repl/cmd_table.o \
             src/repl/commands/cmd_status.o src/repl/commands/cmd_list.o \
             src/repl/commands/cmd_info.o src/repl/commands/cmd_restock.o \
             src/repl/commands/cmd_mode.o src/repl/commands/cmd_reset.o \
-            src/repl/commands/cmd_help.o src/repl/commands/cmd_exit.o
+            src/repl/commands/cmd_help.o src/repl/commands/cmd_exit.o \
+            src/repl/commands/cmd_add.o src/repl/commands/cmd_remove.o
 
 test_json_config: tests/test_json_config.c $(OBJS)
 	$(CC) $(CFLAGS) tests/test_json_config.c $(OBJS) -o _test_json_config
@@ -47,4 +48,14 @@ test_repl_dispatch: tests/test_repl_dispatch.c $(OBJS) $(REPL_OBJS)
 	./_test_repl_dispatch
 	rm _test_repl_dispatch
 
-.PHONY: test_json_config test_json_state test_ingredient test_appliance test_recipe test_repl_dispatch
+test_add: tests/test_add.c $(OBJS) $(REPL_OBJS)
+	$(CC) $(CFLAGS) tests/test_add.c $(OBJS) $(REPL_OBJS) -o _test_add
+	./_test_add
+	rm _test_add
+
+test_remove: tests/test_remove.c $(OBJS) $(REPL_OBJS)
+	$(CC) $(CFLAGS) tests/test_remove.c $(OBJS) $(REPL_OBJS) -o _test_remove
+	./_test_remove
+	rm _test_remove
+
+.PHONY: test_json_config test_json_state test_ingredient test_appliance test_recipe test_repl_dispatch test_add test_remove

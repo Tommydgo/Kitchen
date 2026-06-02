@@ -20,5 +20,6 @@ char *json_read_file(const char *path);
 int json_load_config(const char *path, kitchen_t *k);
 int json_load_state(const char *path, kitchen_t *k);
 int json_save_state(const char *path, kitchen_t *k);
+int json_parse_recipes(void *cjson_arr, kitchen_t *k);
 
 #endif /* DATASOURCE_H_ */
