@@ -1,0 +1,38 @@
+{
+  "stock_mode": "real",
+  "ingredients": [
+    { "name": "flour",  "quantity": 1000, "unit": "g"   },
+    { "name": "eggs",   "quantity": 12,   "unit": "pcs" },
+    { "name": "butter", "quantity": 500,  "unit": "g"   }
+  ],
+  "appliances": [
+    { "name": "oven",      "count": 1 },
+    { "name": "microwave", "count": 2 },
+    { "name": "fridge",    "count": 1 }
+  ],
+  "recipes": [
+    {
+      "name": "dough",
+      "ingredients": [
+        { "name": "flour",  "quantity": 200, "unit": "g" },
+        { "name": "butter", "quantity": 100, "unit": "g" }
+      ],
+      "appliances": [
+        { "name": "microwave", "duration": 120 }
+      ],
+      "sub_recipes": [],
+      "output": { "name": "dough", "quantity": 1, "unit": "pcs" }
+    },
+    {
+      "name": "cake",
+      "ingredients": [
+        { "name": "eggs", "quantity": 3, "unit": "pcs" }
+      ],
+      "appliances": [
+        { "name": "oven", "duration": 1800 }
+      ],
+      "sub_recipes": ["dough"],
+      "output": { "name": "cake", "quantity": 1, "unit": "pcs" }
+    }
+  ]
+}

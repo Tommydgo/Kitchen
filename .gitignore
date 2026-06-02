@@ -1,0 +1,16 @@
+#*#
+*.o
+*.pch
+*.gcda
+*.gcno
+tester.sh
+README
+.vscode
+vgcore*
+docs
+CLAUDE.md
+agenda
+agenda.dat
+/kitchen
+/debug_kitchen
+/kitchen_save.json
